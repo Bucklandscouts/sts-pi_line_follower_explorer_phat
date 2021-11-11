@@ -1,0 +1,29 @@
+import explorerhat
+from time import sleep
+
+buggyf = explorerhat.motor.forwards
+buggyl = explorerhat.motor.one.forwards
+buggyr = explorerhat.motor.two.forwards
+
+def changed(input):
+    state = input.read()
+    name = input.name
+    print("Input {} changed to {}".format(name,state))
+explorerhat.input.changed(changed)
+    
+left = explorerhat.input.one.read()
+right = explorerhat.input.two.read()
+
+while True:
+    left = explorerhat.input.one.read()
+    right = explorerhat.input.two.read()
+    if (left == 1) and (right == 1):
+        buggyf(10)
+    elif (left == 0) and (right == 1):
+        buggyl(10)
+        buggyr(0)
+    elif (left == 1) and (right == 0):
+        buggyr(10)
+        buggyl(0)
+    else:
+        explorerhat.motor.stop()
